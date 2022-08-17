@@ -236,9 +236,10 @@ int fbh5_open(fbh5_context_t * p_fbh5_ctx, fb_hdr_t * p_fb_hdr, unsigned int Nd,
             fcache_nslots = (cdims[0] * cdims[2]) + 1;
             fcache_nbytes = (Nd * p_fbh5_ctx->tint_size) + 1;
             printf("Cache nslots = %lu, nbytes = %lu\n", fcache_nslots, fcache_nbytes);
-        } else // no caching (CACHING_TYPE = 0)
+        } else {// no caching (CACHING_TYPE = 0)
             fcache_nslots = 0;
             fcache_nbytes = 0;
+        }
         fapl = H5Fget_access_plist(p_fbh5_ctx->file_id);
         if(fapl < 0)
             fbh5_warning(__FILE__, __LINE__, "fbh5_open: H5Fget_access_plist FAILED; using default caching");
