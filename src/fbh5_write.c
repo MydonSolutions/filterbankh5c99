@@ -17,7 +17,7 @@
 /***
 	Main entry point.
 ***/
-int fbh5_write(fbh5_context_t * p_fbh5_ctx, fb_hdr_t * p_fb_hdr, void * p_buffer, size_t bufsize, int debug_callback) {
+int fbh5_write(fbh5_context_t * p_fbh5_ctx, filterbankc99_header_t * p_fb_hdr, void * p_buffer, size_t bufsize, int debug_callback) {
     herr_t      status;          // Status from HDF5 function call
     size_t      ntints;          // Number of time integrations in the current dump
     hid_t       filespace_id;    // Identifier for a copy of the dataspace 

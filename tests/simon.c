@@ -26,8 +26,8 @@
 /***
 	Initialize metadata to Voyager 1 values.
 ***/
-void make_voyager_1_metadata(fb_hdr_t *fb_hdr) {
-    memset(fb_hdr, 0, sizeof(fb_hdr_t));
+void make_voyager_1_metadata(filterbankc99_header_t *fb_hdr) {
+    memset(fb_hdr, 0, sizeof(filterbankc99_header_t));
     fb_hdr->az_start = 0.0;
     fb_hdr->data_type = 1;
     fb_hdr->fch1 = 8421.386717353016;       // MHz
@@ -108,7 +108,7 @@ int main(int argc, char **argv) {
     int debug_callback = DEBUG_CALLBACK;
     float* h_pwrbuf = p_data;
     size_t h_pwrbuf_size = sz_alloc;
-    fb_hdr_t fb_hdr;
+    filterbankc99_header_t fb_hdr;
     fbh5_context_t fbh5_ctx;
 
     make_voyager_1_metadata(&fb_hdr);
