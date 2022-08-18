@@ -15,6 +15,7 @@
 #include <time.h>
 
 #include "filterbankc99/filterbank_header.h"
+#include "filterbankc99/filterbank_utils.h"
 
 /*
  * HDF5 library definitions
