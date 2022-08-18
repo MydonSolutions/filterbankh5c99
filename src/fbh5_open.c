@@ -14,7 +14,7 @@
 /***
 	Open-file entry point.
 ***/
-int filterbankh5_open(filterbankh5_context_t * p_fbh5_ctx, filterbankh5_header_t * p_fb_hdr, unsigned int Nd, char * output_path, int debug_callback) {
+int filterbankh5_open(filterbankh5_context_t * p_fbh5_ctx, filterbank_header_t * p_fb_hdr, unsigned int Nd, char * output_path, int debug_callback) {
     hid_t       dcpl;               // Chunking handle - needed until dataset handle is produced
     hsize_t     max_dims[NDIMS];    // Maximum dataset allocation dimensions
     herr_t      status;             // Status from HDF5 function call

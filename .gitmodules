@@ -1,0 +1,3 @@
+[submodule "subprojects/filterbankc99"]
+	path = subprojects/filterbankc99
+	url = https://github.com/MydonSolutions/filterbankc99

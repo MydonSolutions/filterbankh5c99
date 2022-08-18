@@ -4,8 +4,8 @@
  * Global Definitions       .                                                  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef filterbankh5_DEFS_H
-#define filterbankh5_DEFS_H
+#ifndef _FILTERBANKH5_C99_H
+#define _FILTERBANKH5_C99_H
 
 #include <stdlib.h>
 #include <stdarg.h>
@@ -14,7 +14,7 @@
 #include <string.h>
 #include <time.h>
 
-#include "filterbankh5c99/filterbank_header.h"
+#include "filterbankc99/filterbank_header.h"
 
 /*
  * HDF5 library definitions
@@ -58,8 +58,8 @@ typedef struct {
 /*
  * fbh5 API functions
  */
-int     filterbankh5_open(filterbankh5_context_t * p_fbh5_ctx, filterbankh5_header_t * p_fb_hdr, unsigned int Nds, char * output_path, int debug_callback);
-int     filterbankh5_write(filterbankh5_context_t * p_fbh5_ctx, filterbankh5_header_t * p_fb_hdr, void * buffer, size_t bufsize, int debug_callback);
+int     filterbankh5_open(filterbankh5_context_t * p_fbh5_ctx, filterbank_header_t * p_fb_hdr, unsigned int Nds, char * output_path, int debug_callback);
+int     filterbankh5_write(filterbankh5_context_t * p_fbh5_ctx, filterbank_header_t * p_fb_hdr, void * buffer, size_t bufsize, int debug_callback);
 int     filterbankh5_close(filterbankh5_context_t * p_fbh5_ctx, int debug_callback);
 
 /*
@@ -71,10 +71,10 @@ void    filterbankh5_error(char * srcfile, int linenum, char * msg);
 void    filterbankh5_set_str_attr(hid_t file_or_dataset_id, char * tag, char * value, int debug_callback);
 void    filterbankh5_set_dataset_double_attr(hid_t dataset_id, char * tag, double * p_value, int debug_callback);
 void    filterbankh5_set_dataset_int_attr(hid_t dataset_id, char * tag, int * p_value, int debug_callback);
-void    filterbankh5_write_metadata(hid_t dataset_id, filterbankh5_header_t * p_metadata, int debug_callback);
+void    filterbankh5_write_metadata(hid_t dataset_id, filterbank_header_t * p_metadata, int debug_callback);
 void    filterbankh5_set_ds_label(filterbankh5_context_t * p_fbh5_ctx, char * label, int dims_index, int debug_callback);
 void    filterbankh5_show_context(char * caller, filterbankh5_context_t * p_fbh5_ctx);
-void    filterbankh5_blimpy_chunking(filterbankh5_header_t * p_fb_hdr, hsize_t * p_cdims);
+void    filterbankh5_blimpy_chunking(filterbank_header_t * p_fb_hdr, hsize_t * p_cdims);
 
 /*
  * HDF5 library ID of the Bitshuffle filter.

@@ -165,7 +165,7 @@ void filterbankh5_set_dataset_int_attr(hid_t dataset_id, char * tag, int * p_val
 /***
 	Write metadata to FBH5 file dataset.
 ***/
-void filterbankh5_write_metadata(hid_t dataset_id, filterbankh5_header_t *p_md, int debug_callback) {
+void filterbankh5_write_metadata(hid_t dataset_id, filterbank_header_t *p_md, int debug_callback) {
     filterbankh5_set_dataset_int_attr(dataset_id, "machine_id", &(p_md->machine_id), debug_callback);
     filterbankh5_set_dataset_int_attr(dataset_id, "telescope_id", &(p_md->telescope_id), debug_callback);
     filterbankh5_set_dataset_int_attr(dataset_id, "data_type", &(p_md->data_type), debug_callback);
@@ -238,7 +238,7 @@ void filterbankh5_show_context(char * caller, filterbankh5_context_t * p_fbh5_ct
     * Intermediate frequency resolution --> (10,1,65536)
     * None of the above ------------------> (1,1,512)
 ***/
-void filterbankh5_blimpy_chunking(filterbankh5_header_t * p_fb_hdr, hsize_t * p_cdims) {
+void filterbankh5_blimpy_chunking(filterbank_header_t * p_fb_hdr, hsize_t * p_cdims) {
 
         // GBT: '.0000.' is HFR
         // GBT: 1048576 is the number of channels in a coarse channel.

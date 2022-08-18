@@ -1,5 +1,5 @@
 project('filterbankh5c99', 'c',
-  version: '1.0.0',
+  version: '1.1.0',
   default_options: [
     'c_std=c99',
     'buildtype=release',
@@ -12,7 +12,8 @@ inc_lst = [
 	include_directories('include'),
 ]
 dep_lst = [
-  dependency('hdf5')
+  dependency('hdf5'),
+  subproject('filterbankc99').get_variable('lib_filterbankc99_dep')
 ]
 
 subdir('include')
