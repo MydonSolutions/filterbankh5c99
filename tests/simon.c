@@ -26,8 +26,8 @@
 /***
 	Initialize metadata to Voyager 1 values.
 ***/
-void make_voyager_1_metadata(filterbankc99_header_t *fb_hdr) {
-    memset(fb_hdr, 0, sizeof(filterbankc99_header_t));
+void make_voyager_1_metadata(filterbankh5_header_t *fb_hdr) {
+    memset(fb_hdr, 0, sizeof(filterbankh5_header_t));
     fb_hdr->az_start = 0.0;
     fb_hdr->data_type = 1;
     fb_hdr->fch1 = 8421.386717353016;       // MHz
@@ -108,8 +108,8 @@ int main(int argc, char **argv) {
     int debug_callback = DEBUG_CALLBACK;
     float* h_pwrbuf = p_data;
     size_t h_pwrbuf_size = sz_alloc;
-    filterbankc99_header_t fb_hdr;
-    fbh5_context_t fbh5_ctx;
+    filterbankh5_header_t fb_hdr;
+    filterbankh5_context_t fbh5_ctx;
 
     make_voyager_1_metadata(&fb_hdr);
     printf("simon: Callback data ready.\n");
@@ -118,8 +118,8 @@ int main(int argc, char **argv) {
      * Create/recreate the file and store the metadata.
      */
     time(&time1);
-    if(fbh5_open(&fbh5_ctx, &fb_hdr, NTINTS, PATH_H5, debug_callback) != 0) {
-        fatal_error(__LINE__, "fbh5_open failed");
+    if(filterbankh5_open(&fbh5_ctx, &fb_hdr, NTINTS, PATH_H5, debug_callback) != 0) {
+        fatal_error(__LINE__, "filterbankh5_open failed");
         exit(86);
     }
 
@@ -127,16 +127,16 @@ int main(int argc, char **argv) {
      * Write data.
      */
     for(int ii = 0; ii < NTINTS; ++ii)
-        if(fbh5_write(&fbh5_ctx, &fb_hdr, h_pwrbuf, h_pwrbuf_size, debug_callback) != 0) {
-            fatal_error(__LINE__, "fbh5_write failed");
+        if(filterbankh5_write(&fbh5_ctx, &fb_hdr, h_pwrbuf, h_pwrbuf_size, debug_callback) != 0) {
+            fatal_error(__LINE__, "filterbankh5_write failed");
             exit(86);
         }
 
     /*
      * Close FBH5 session.
      */
-    if(fbh5_close(&fbh5_ctx, debug_callback) != 0) {
-        fatal_error(__LINE__, "fbh5_close failed");
+    if(filterbankh5_close(&fbh5_ctx, debug_callback) != 0) {
+        fatal_error(__LINE__, "filterbankh5_close failed");
         exit(86);
     }
 

@@ -17,7 +17,7 @@
 /***
 	Main entry point.
 ***/
-int fbh5_write(fbh5_context_t * p_fbh5_ctx, filterbankc99_header_t * p_fb_hdr, void * p_buffer, size_t bufsize, int debug_callback) {
+int filterbankh5_write(filterbankh5_context_t * p_fbh5_ctx, filterbankh5_header_t * p_fb_hdr, void * p_buffer, size_t bufsize, int debug_callback) {
     herr_t      status;          // Status from HDF5 function call
     size_t      ntints;          // Number of time integrations in the current dump
     hid_t       filespace_id;    // Identifier for a copy of the dataspace 
@@ -29,7 +29,7 @@ int fbh5_write(fbh5_context_t * p_fbh5_ctx, filterbankc99_header_t * p_fb_hdr, v
      * Initialise write loop.
      */
     if(debug_callback)
-        fbh5_show_context("fbh5_write", p_fbh5_ctx);
+        filterbankh5_show_context("fbh5_write", p_fbh5_ctx);
     ntints = bufsize / p_fbh5_ctx->tint_size;  // Compute the number of time integrations in the current dump.
     p_fbh5_ctx->dump_count += 1;               // Bump the dump count.
 
@@ -53,7 +53,7 @@ int fbh5_write(fbh5_context_t * p_fbh5_ctx, filterbankc99_header_t * p_fb_hdr, v
     selection[2] = p_fb_hdr->nchans;
 
     if(debug_callback) {
-        fbh5_info("fbh5_write: dump %ld, offset=(%lld, %lld, %lld), selection=(%lld, %lld, %lld), filesize=(%lld, %lld, %lld)\n",
+        filterbankh5_info("fbh5_write: dump %ld, offset=(%lld, %lld, %lld), selection=(%lld, %lld, %lld), filesize=(%lld, %lld, %lld)\n",
                p_fbh5_ctx->dump_count,
                p_fbh5_ctx->offset_dims[0], 
                p_fbh5_ctx->offset_dims[1], 
@@ -73,8 +73,8 @@ int fbh5_write(fbh5_context_t * p_fbh5_ctx, filterbankc99_header_t * p_fb_hdr, v
     status = H5Dset_extent(p_fbh5_ctx->dataset_id,    // Dataset handle
                            p_fbh5_ctx->filesz_dims);  // New dataset shape
     if(status < 0) {
-        fbh5_error(__FILE__, __LINE__, "fbh5_write: H5Dset_extent/dataset_id FAILED");
-        fbh5_show_context("fbh5_write", p_fbh5_ctx);
+        filterbankh5_error(__FILE__, __LINE__, "fbh5_write: H5Dset_extent/dataset_id FAILED");
+        filterbankh5_show_context("fbh5_write", p_fbh5_ctx);
         p_fbh5_ctx->active = 0;
         return 1;
     }
@@ -87,8 +87,8 @@ int fbh5_write(fbh5_context_t * p_fbh5_ctx, filterbankc99_header_t * p_fb_hdr, v
                                   selection,                // New dataspace size shape
                                   p_fbh5_ctx->filesz_dims); // Max dataspace dimensions
     if(status < 0) {
-        fbh5_error(__FILE__, __LINE__, "fbh5_write: H5Dset_extent/dataset_id FAILED");
-        fbh5_show_context("fbh5_write", p_fbh5_ctx);
+        filterbankh5_error(__FILE__, __LINE__, "fbh5_write: H5Dset_extent/dataset_id FAILED");
+        filterbankh5_show_context("fbh5_write", p_fbh5_ctx);
         p_fbh5_ctx->active = 0;
         return 1;
     }
@@ -98,8 +98,8 @@ int fbh5_write(fbh5_context_t * p_fbh5_ctx, filterbankc99_header_t * p_fb_hdr, v
      */
     filespace_id = H5Dget_space(p_fbh5_ctx->dataset_id);    // Dataset handle
     if(filespace_id < 0) {
-        fbh5_error(__FILE__, __LINE__, "fbh5_write: H5Dget_space FAILED");
-        fbh5_show_context("fbh5_write", p_fbh5_ctx);
+        filterbankh5_error(__FILE__, __LINE__, "fbh5_write: H5Dget_space FAILED");
+        filterbankh5_show_context("fbh5_write", p_fbh5_ctx);
         p_fbh5_ctx->active = 0;
         return 1;
     }
@@ -114,8 +114,8 @@ int fbh5_write(fbh5_context_t * p_fbh5_ctx, filterbankc99_header_t * p_fb_hdr, v
                                  selection,                 // Selection dimensions
                                  NULL);                     // Block parameter : default value
     if(status < 0) {
-        fbh5_error(__FILE__, __LINE__, "fbh5_write: H5Sselect_hyperslab/filespace FAILED");
-        fbh5_show_context("fbh5_write", p_fbh5_ctx);
+        filterbankh5_error(__FILE__, __LINE__, "fbh5_write: H5Sselect_hyperslab/filespace FAILED");
+        filterbankh5_show_context("fbh5_write", p_fbh5_ctx);
         p_fbh5_ctx->active = 0;
         return 1;
     }
@@ -130,8 +130,8 @@ int fbh5_write(fbh5_context_t * p_fbh5_ctx, filterbankc99_header_t * p_fb_hdr, v
                       H5P_DEFAULT,              // Default data transfer properties
                       p_buffer);                // Buffer holding the data
     if(status < 0) {
-        fbh5_error(__FILE__, __LINE__, "fbh5_write: H5Dwrite FAILED");
-        fbh5_show_context("fbh5_write", p_fbh5_ctx);
+        filterbankh5_error(__FILE__, __LINE__, "fbh5_write: H5Dwrite FAILED");
+        filterbankh5_show_context("fbh5_write", p_fbh5_ctx);
         p_fbh5_ctx->active = 0;
         return 1;
     }
@@ -146,14 +146,14 @@ int fbh5_write(fbh5_context_t * p_fbh5_ctx, filterbankc99_header_t * p_fb_hdr, v
      */
     status = H5Sclose(filespace_id);
     if(status < 0) {
-        fbh5_error(__FILE__, __LINE__, "fbh5_close H5Sclose/filespace_id FAILED\n");
-        fbh5_show_context("fbh5_write", p_fbh5_ctx);
+        filterbankh5_error(__FILE__, __LINE__, "fbh5_close H5Sclose/filespace_id FAILED\n");
+        filterbankh5_show_context("fbh5_write", p_fbh5_ctx);
         p_fbh5_ctx->active = 0;
         return 1;
     }
     if(debug_callback) {
         cpu_time_used = ((double) (clock() - clock_1)) / CLOCKS_PER_SEC;
-        fbh5_info("fbh5_write: dump %ld E.T. = %.3f s\n", p_fbh5_ctx->dump_count, cpu_time_used);
+        filterbankh5_info("fbh5_write: dump %ld E.T. = %.3f s\n", p_fbh5_ctx->dump_count, cpu_time_used);
     }
 
     /*

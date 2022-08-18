@@ -1,11 +1,11 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- * fbh5_defs.h                                                                 *
+ * filterbankh5_defs.h                                                                 *
  * -----------                                                                 *
  * Global Definitions       .                                                  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef FBH5_DEFS_H
-#define FBH5_DEFS_H
+#ifndef filterbankh5_DEFS_H
+#define filterbankh5_DEFS_H
 
 #include <stdlib.h>
 #include <stdarg.h>
@@ -37,14 +37,14 @@ typedef struct {
     hid_t dataset_id;           // Dataset "data" handle
     hid_t dataspace_id;         // Dataspace handle for dataset "data"
     unsigned int elem_size;     // Byte size of one spectra element (E.g. 4 if nbits=32)
-    hid_t elem_type;            // HDF5 type for all elements (derived from nbits in fbh5_open)
-    size_t tint_size;           // Size of a time integration (computed in fbh5_open)
-    hsize_t offset_dims[3];     // Next offset dimensions for the fbh5_write function
+    hid_t elem_type;            // HDF5 type for all elements (derived from nbits in filterbankh5_open)
+    size_t tint_size;           // Size of a time integration (computed in filterbankh5_open)
+    hsize_t offset_dims[3];     // Next offset dimensions for the filterbankh5_write function
                                 // (offset_dims[0] : time integration count)
     hsize_t filesz_dims[3];     // Accumulated file size in dimensions
     unsigned long byte_count;   // Number of bytes output so far
     unsigned long dump_count;   // Number of dumps processed so far
-} fbh5_context_t;
+} filterbankh5_context_t;
 
 /*
  * Global definitions
@@ -58,23 +58,23 @@ typedef struct {
 /*
  * fbh5 API functions
  */
-int     fbh5_open(fbh5_context_t * p_fbh5_ctx, filterbankc99_header_t * p_fb_hdr, unsigned int Nds, char * output_path, int debug_callback);
-int     fbh5_write(fbh5_context_t * p_fbh5_ctx, filterbankc99_header_t * p_fb_hdr, void * buffer, size_t bufsize, int debug_callback);
-int     fbh5_close(fbh5_context_t * p_fbh5_ctx, int debug_callback);
+int     filterbankh5_open(filterbankh5_context_t * p_fbh5_ctx, filterbankh5_header_t * p_fb_hdr, unsigned int Nds, char * output_path, int debug_callback);
+int     filterbankh5_write(filterbankh5_context_t * p_fbh5_ctx, filterbankh5_header_t * p_fb_hdr, void * buffer, size_t bufsize, int debug_callback);
+int     filterbankh5_close(filterbankh5_context_t * p_fbh5_ctx, int debug_callback);
 
 /*
  * fbh5_util.c functions
  */
-void    fbh5_info(const char * format, ...);
-void    fbh5_warning(char * srcfile, int linenum, char * msg);
-void    fbh5_error(char * srcfile, int linenum, char * msg);
-void    fbh5_set_str_attr(hid_t file_or_dataset_id, char * tag, char * value, int debug_callback);
-void    fbh5_set_dataset_double_attr(hid_t dataset_id, char * tag, double * p_value, int debug_callback);
-void    fbh5_set_dataset_int_attr(hid_t dataset_id, char * tag, int * p_value, int debug_callback);
-void    fbh5_write_metadata(hid_t dataset_id, filterbankc99_header_t * p_metadata, int debug_callback);
-void    fbh5_set_ds_label(fbh5_context_t * p_fbh5_ctx, char * label, int dims_index, int debug_callback);
-void    fbh5_show_context(char * caller, fbh5_context_t * p_fbh5_ctx);
-void    fbh5_blimpy_chunking(filterbankc99_header_t * p_fb_hdr, hsize_t * p_cdims);
+void    filterbankh5_info(const char * format, ...);
+void    filterbankh5_warning(char * srcfile, int linenum, char * msg);
+void    filterbankh5_error(char * srcfile, int linenum, char * msg);
+void    filterbankh5_set_str_attr(hid_t file_or_dataset_id, char * tag, char * value, int debug_callback);
+void    filterbankh5_set_dataset_double_attr(hid_t dataset_id, char * tag, double * p_value, int debug_callback);
+void    filterbankh5_set_dataset_int_attr(hid_t dataset_id, char * tag, int * p_value, int debug_callback);
+void    filterbankh5_write_metadata(hid_t dataset_id, filterbankh5_header_t * p_metadata, int debug_callback);
+void    filterbankh5_set_ds_label(filterbankh5_context_t * p_fbh5_ctx, char * label, int dims_index, int debug_callback);
+void    filterbankh5_show_context(char * caller, filterbankh5_context_t * p_fbh5_ctx);
+void    filterbankh5_blimpy_chunking(filterbankh5_header_t * p_fb_hdr, hsize_t * p_cdims);
 
 /*
  * HDF5 library ID of the Bitshuffle filter.

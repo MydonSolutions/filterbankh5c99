@@ -13,7 +13,7 @@
 /***
 	Main entry point.
 ***/
-int fbh5_close(fbh5_context_t * p_fbh5_ctx, int debug_callback) {
+int filterbankh5_close(filterbankh5_context_t * p_fbh5_ctx, int debug_callback) {
     herr_t      status;         // Status from HDF5 function call
     hsize_t     sz_store;       // Storage size
     double      MiBstore;       // sz_store converted to MiB
@@ -29,17 +29,17 @@ int fbh5_close(fbh5_context_t * p_fbh5_ctx, int debug_callback) {
     /*
      * Attach "dimension scale" labels.
      */
-    fbh5_set_ds_label(p_fbh5_ctx, "time", 0, debug_callback);
-    fbh5_set_ds_label(p_fbh5_ctx, "feed_id", 1, debug_callback);
-    fbh5_set_ds_label(p_fbh5_ctx, "frequency", 2, debug_callback);
+    filterbankh5_set_ds_label(p_fbh5_ctx, "time", 0, debug_callback);
+    filterbankh5_set_ds_label(p_fbh5_ctx, "feed_id", 1, debug_callback);
+    filterbankh5_set_ds_label(p_fbh5_ctx, "frequency", 2, debug_callback);
 
     /*
      * Close dataspace.
      */
     status = H5Sclose(p_fbh5_ctx->dataspace_id);
     if(status != 0) {
-        fbh5_error(__FILE__, __LINE__, "fbh5_close H5Sclose dataspace FAILED\n");
-        fbh5_show_context("fbh5_close", p_fbh5_ctx);
+        filterbankh5_error(__FILE__, __LINE__, "fbh5_close H5Sclose dataspace FAILED\n");
+        filterbankh5_show_context("fbh5_close", p_fbh5_ctx);
         return 1;
     }
         
@@ -48,8 +48,8 @@ int fbh5_close(fbh5_context_t * p_fbh5_ctx, int debug_callback) {
      */
     status = H5Dclose(p_fbh5_ctx->dataset_id);
     if(status != 0) {
-        fbh5_error(__FILE__, __LINE__, "fbh5_close H5Dclose dataset 'data' FAILED\n");
-        fbh5_show_context("fbh5_close", p_fbh5_ctx);
+        filterbankh5_error(__FILE__, __LINE__, "fbh5_close H5Dclose dataset 'data' FAILED\n");
+        filterbankh5_show_context("fbh5_close", p_fbh5_ctx);
          return 1;
     }
         
@@ -58,8 +58,8 @@ int fbh5_close(fbh5_context_t * p_fbh5_ctx, int debug_callback) {
      */
     status = H5Fclose(p_fbh5_ctx->file_id);
     if(status != 0) {
-        fbh5_error(__FILE__, __LINE__, "fbh5_close H5Fclose FAILED\n");
-        fbh5_show_context("fbh5_close", p_fbh5_ctx);
+        filterbankh5_error(__FILE__, __LINE__, "fbh5_close H5Fclose FAILED\n");
+        filterbankh5_show_context("fbh5_close", p_fbh5_ctx);
         return 1;
     }
 
@@ -67,11 +67,11 @@ int fbh5_close(fbh5_context_t * p_fbh5_ctx, int debug_callback) {
      * Closing statistics.
      */
     if(debug_callback) {
-        fbh5_info("fbh5_close: Context closed.\n");
-        fbh5_info("fbh5_close: %ld dumps processed.\n", p_fbh5_ctx->dump_count);
-        fbh5_info("fbh5_close: %lld time integrations processed.\n", p_fbh5_ctx->offset_dims[0]);
+        filterbankh5_info("fbh5_close: Context closed.\n");
+        filterbankh5_info("fbh5_close: %ld dumps processed.\n", p_fbh5_ctx->dump_count);
+        filterbankh5_info("fbh5_close: %lld time integrations processed.\n", p_fbh5_ctx->offset_dims[0]);
         MiBstore = (double) sz_store / MILLION;
-        fbh5_info("fbh5_close: Compressed %.2f MiB --> %.2f MiB\n", MiBlogical, MiBstore);
+        filterbankh5_info("fbh5_close: Compressed %.2f MiB --> %.2f MiB\n", MiBlogical, MiBstore);
     }
 
     /*

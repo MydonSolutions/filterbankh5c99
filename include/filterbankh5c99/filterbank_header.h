@@ -50,6 +50,6 @@ typedef struct {
   // E.g. turbo_seti will compute the number of coarse channels = nchans / nfpc
   int nfpc;
   
-} filterbankc99_header_t;
+} filterbankh5_header_t;
 
 #endif // FILTERBANK_HEADER_H_
