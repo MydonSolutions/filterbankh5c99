@@ -1,3 +1,4 @@
+Superceded by https://github.com/MydonSolutions/fbh5c99...
 
 Origin of code here is:
 - [include/filterbankh5c99.h](https://github.com/UCBerkeleySETI/rawspec/blob/188981a992eb6fddd105dee0d7763b07802fc861/fbh5_defs.h)
